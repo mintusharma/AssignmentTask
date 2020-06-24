@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "498454413712",
+    "firebase_url": "https://loginappdemo-3e60f.firebaseio.com",
+    "project_id": "loginappdemo-3e60f",
+    "storage_bucket": "loginappdemo-3e60f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:498454413712:android:52321b87eb56a5b202b315",
+        "android_client_info": {
+          "package_name": "com.androidcenter.facebooklogin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "498454413712-a9d6ojfoam7ld9cgva91flrvb3l71v97.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdXqULQZoPVyV2_nxceUIeU92GRFv8Crw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "498454413712-a9d6ojfoam7ld9cgva91flrvb3l71v97.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:498454413712:android:4504e41e11728b8002b315",
+        "android_client_info": {
+          "package_name": "com.mintusharma.webkultask"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "498454413712-a9d6ojfoam7ld9cgva91flrvb3l71v97.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdXqULQZoPVyV2_nxceUIeU92GRFv8Crw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "498454413712-a9d6ojfoam7ld9cgva91flrvb3l71v97.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
