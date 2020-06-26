@@ -1,6 +1,17 @@
 <resources>
     <string name="app_name">WebkulTask</string>
 
-    <string name="facebook_app_id">1117929191923006</string>
+    <string name="facebook_application_id">1117929191923006</string>
     <string name="fb_login_protocol_scheme">fb1117929191923006</string>
+
+    <string name="select_image">Select Images</string>
+    <string name="select_video">Select Video</string>
+
+    <string name="load_file">Load File</string>
+    <string name="login">Login</string>
+    <string name="track_me">Track Me</string>
+    <string name="download_file">Download Files</string>
+    <string name="create_show">Create a Show</string>
+    <string name="logout">Log Out</string>
+
 </resources>

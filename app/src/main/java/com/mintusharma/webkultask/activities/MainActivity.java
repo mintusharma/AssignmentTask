@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initView() {
         Button login_button,track_me_button,download_file_button,create_show_button;
-        login_button=findViewById(R.id.login_button);
+        login_button=findViewById(R.id.facebook_login);
         login_button.setOnClickListener(this);
         track_me_button=findViewById(R.id.track_me_button);
         track_me_button.setOnClickListener(this);
@@ -68,12 +69,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int id=view.getId();
         switch (id){
-            case R.id.login_button:
+            case R.id.facebook_login:
                 startActivity(new Intent(this,LoginActivity.class));
                 break;
 
             case R.id.track_me_button:
-                trackMeMethod();
+                startActivity(new Intent(this,TrackMeActivity.class));
                 break;
 
             case R.id.download_file_button:
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.create_show_button:
+                startActivity(new Intent(this,CreateShowActivity.class));
                 break;
         }
     }
@@ -105,18 +107,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    private void trackMeMethod() {
-    }
-
-
-
     // download file code started
 
 
     private void showDialogForDownload() {
         builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
-        View view = LayoutInflater.from(this).inflate(R.layout.file_download_dialog, null, false);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.file_download_dialog, null, false);
         builder.setView(view);
         dialog = builder.create();
         dialog.show();

@@ -12,48 +12,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:text="Login"
-        android:id="@+id/login_button"
+        android:text="@string/login"
+        android:id="@+id/facebook_login"
         android:textAllCaps="false"
         android:layout_margin="20dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/lBlue"
         android:textColor="#fff"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:text="Track Me"
+        android:text="@string/track_me"
         android:id="@+id/track_me_button"
         android:textAllCaps="false"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="20dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/dBlue"
         android:textColor="#fff"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:text="Download Files"
+        android:text="@string/download_file"
         android:id="@+id/download_file_button"
         android:textAllCaps="false"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="20dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/lBlue"
         android:textColor="#fff"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:text="Create a Show"
+        android:text="@string/create_show"
         android:id="@+id/create_show_button"
         android:textAllCaps="false"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="20dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/dBlue"
         android:textColor="#fff"/>
 </LinearLayout>

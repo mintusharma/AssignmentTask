@@ -36,11 +36,19 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
 
     // for facebook login
-    implementation 'com.facebook.android:facebook-login:5.15.3'
-    //for firebase authentication
+    implementation 'com.facebook.android:facebook-android-sdk:5.15.3'
+
+    //firebase dependencies
     implementation 'com.google.firebase:firebase-auth:19.3.1'
+    implementation 'com.google.firebase:firebase-core:17.4.3'
+    implementation 'com.firebaseui:firebase-ui-auth:6.2.1'
+    implementation 'com.google.android.gms:play-services-auth:18.0.0'
     //for google login
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
-    //for profile [icture
+    //for picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
 }

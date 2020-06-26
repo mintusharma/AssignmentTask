@@ -1,175 +1,129 @@
 package com.mintusharma.webkultask.activities;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mintusharma.webkultask.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String EMAIL = "email";
-    private static final String TAG = "MAIN_ACTIVITY";
-    CallbackManager callbackManager;
-    private LoginButton loginButton;
-    private ImageView imageView;
-    private FirebaseAuth mAuth;
-    private TextView profile_Name;
-    private AccessTokenTracker accessTokenTracker;
-    private FirebaseAuth.AuthStateListener authStateListener;
-    private String imageUrl;
+
+    private static final int RC_SIGN_IN = 100;
+    List<AuthUI.IdpConfig> providers;
+    private Button logoutButton;
+    private TextView profileName,profile_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         initView();
 
     }
 
     private void initView() {
-        mAuth = FirebaseAuth.getInstance();
-        //FacebookSdk.sdkInitialize(getApplicationContext());
-        loginButton = findViewById(R.id.login_button);
-        imageView = findViewById(R.id.profile);
-        profile_Name = findViewById(R.id.profile_name);
-        callbackManager = CallbackManager.Factory.create();
-        loginButton.setReadPermissions(Arrays.asList(EMAIL));
-//        AppEventsLogger.activateApp(this);
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
-
-        // If you are using in a fragment, call loginButton.setFragment(this);
-        // Callback registration
-
-        authStateListener = new FirebaseAuth.AuthStateListener() {
+        Toolbar toolbar = findViewById(R.id.toolbar_more_details);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    updateUI(user);
-                } else {
-                    updateUI(null);
-                }
-            }
-        };
-
-        accessTokenTracker = new AccessTokenTracker() {
-            @Override
-            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-                if(null == currentAccessToken){
-
-                    AccessToken accessToken = AccessToken.getCurrentAccessToken();
-                    boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-                    mAuth.signOut();
-
-                }
-            }
-        };
-    }
-
-    public void loginWithFacebook(View view){
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                // App code
-                Log.d(TAG, "onSuccess" + loginResult);
-                //imageUrl = "https://graph.facebook.com/" + loginResult.getAccessToken().getUserId() + "/picture?type=large";
-                handleFacebookAccessToken(loginResult.getAccessToken());
-
-            }
-
-            @Override
-            public void onCancel() {
-                // App code
-                Log.d(TAG, "onCancel");
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Log.d(TAG, "onError" + error);
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
 
-    }
+        profile_email=findViewById(R.id.profile_email);
+        profileName=findViewById(R.id.profile_name);
+        logoutButton =findViewById(R.id.logout);
 
-    private void handleFacebookAccessToken(AccessToken token) {
-        Log.d(TAG, "handle facebook token" + token);
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        providers = Arrays.asList(
+                new AuthUI.IdpConfig.PhoneBuilder().build(),
+                new AuthUI.IdpConfig.GoogleBuilder().build(),
+                new AuthUI.IdpConfig.FacebookBuilder().build()
+        );
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Log.d(TAG, "sign in with credential : success");
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    updateUI(user);
-                } else {
-                    Log.d(TAG, "sign in with credential : failure" + task.getException());
-                    Toast.makeText(getApplicationContext(), "Authentication Failed", Toast.LENGTH_SHORT).show();
-                    updateUI(null);
-                }
+            public void onClick(View view) {
+                AuthUI.getInstance()
+                        .signOut(LoginActivity.this)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                logoutButton.setEnabled(false);
+                                showSignInOptions();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
 
+                    }
+                });
             }
         });
+
+        showSignInOptions();
     }
 
+    private void showSignInOptions() {
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(providers)
+                        .setTheme(R.style.LoginTheme)
+                        .build(),
+                RC_SIGN_IN);
+    }
+
+    @SuppressLint("SetTextI18n")
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-    }
 
-    private void updateUI(FirebaseUser user) {
-        if (user != null) {
-            profile_Name.setText(user.getDisplayName());
-            if (user.getPhotoUrl() != null) {
+        if (requestCode == RC_SIGN_IN) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
 
-                String imageUrls = user.getPhotoUrl().toString() + "?type=large";
-                Picasso.get().load(imageUrls).into(imageView);
+            if (resultCode == RESULT_OK) {
+                // Successfully signed in
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if(user!=null) {
+                    profileName.setText("Welcome : "+user.getDisplayName());
+                    profile_email.setText("Email : "+user.getEmail());
+                    Toast.makeText(this, "Welcome" + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+                    logoutButton.setEnabled(true);
+                }else {
+                    Toast.makeText(this,"Something Went Wrong",Toast.LENGTH_SHORT).show();
+                }
+                // ...
+            } else {
+                // Sign in failed. If response is null the user canceled the
+                // sign-in flow using the back button. Otherwise check
+                Toast.makeText(this,"Something Went Wrong",Toast.LENGTH_SHORT).show();
             }
-        } else {
-            profile_Name.setText("");
-            imageView.setVisibility(View.GONE);
         }
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(authStateListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if(authStateListener!=null){
-            mAuth.removeAuthStateListener(authStateListener);
-        }
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
