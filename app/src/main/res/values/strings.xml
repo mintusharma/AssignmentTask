@@ -24,9 +24,12 @@
     <string name="select_show">Select your choice..</string>
 
     <string name="info">Hello , Thanks for you given task\n We can add more functionality and improve more function.
-        \nAlso we can use MVVM architecture for better UI.Please Enable GPS before testing the tracking
-        screen because I implement the GPS enable check but not working in some devices may need to recheck or improve some conditions.\n Overall thanks Once again for you Task.
+        Also we can use MVVM architecture for better UI.Please Enable GPS before testing the tracking
+        screen because I implement the GPS enable check but not working in some devices may need to recheck or
+        improve some conditions.\n
+        We can also change and improve the app on UI side and code will also enhanced.
 
     </string>
+    <string name="title_activity_tracking">Map</string>
 
 </resources>
