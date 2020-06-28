@@ -49,7 +49,7 @@ import java.util.List;
 public class TrackMeActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private static final String TAG = "HomeMMIFragment";
+    private static final String TAG = "HOME";
 
     private static final int REQUEST_CODE = 101;
     private double currentLatitude = 0.0;
@@ -69,7 +69,7 @@ public class TrackMeActivity extends AppCompatActivity implements OnMapReadyCall
         setContentView(R.layout.activity_track_me);
         Toolbar toolbar = findViewById(R.id.toolbar_more_details);
         setSupportActionBar(toolbar);
-        location_name=findViewById(R.id.location_name);
+        location_name = findViewById(R.id.location_name);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +85,7 @@ public class TrackMeActivity extends AppCompatActivity implements OnMapReadyCall
 
         geocoder = new Geocoder(this);
 
-        locationRequest=LocationRequest.create();
+        locationRequest = LocationRequest.create();
         locationRequest.setInterval(5000);
         locationRequest.setFastestInterval(3000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -105,7 +105,7 @@ public class TrackMeActivity extends AppCompatActivity implements OnMapReadyCall
 
     public void enableTracking(View view) {
         //startActivity(new Intent(this, MapsActivity.class));
-        Toast.makeText(this,"Tracking Enable",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Tracking Enable", Toast.LENGTH_SHORT).show();
         enableUserLocation();
         startLocationUpdate();
     }
@@ -127,7 +127,6 @@ public class TrackMeActivity extends AppCompatActivity implements OnMapReadyCall
             return;
         }
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
-
     }
 
     private void stopLocationUpdate() {
@@ -165,41 +164,50 @@ public class TrackMeActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void updateMarker(Location location) {
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        try {
-            List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-            if (addresses.size() > 0) {
-                Address address = addresses.get(0);
-                String streetAddress = address.getAddressLine(0);
-                location_name.setText(streetAddress);
+        if(location!=null) {
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            try {
+                List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                if (addresses.size() > 0) {
+                    location_name.setVisibility(View.VISIBLE);
+                    Address address = addresses.get(0);
+                    String streetAddress = address.getAddressLine(0);
+                    location_name.setText(streetAddress);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (userMarker == null) {
-            markerOptions = new MarkerOptions();
-            markerOptions.position(latLng);
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.person));
-            userMarker = mMap.addMarker(markerOptions);
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+            if (userMarker == null) {
+                markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.person));
+                userMarker = mMap.addMarker(markerOptions);
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
 
-        } else {
-            userMarker.setPosition(latLng);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+            } else {
+                userMarker.setPosition(latLng);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+            }
+        }else {
+            Toast.makeText(this,"Something went wrong",Toast.LENGTH_LONG).show();
         }
     }
 
     private void zoomToUserLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+          return;
         }
         Task<Location> locationTask = fusedLocationProviderClient.getLastLocation();
         locationTask.addOnSuccessListener(this, new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,20));
-                updateMarkerWithGeoCoding(latLng);
+                if(location==null){
+                    startLocationUpdate();
+                }else {
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,20));
+                    updateMarkerWithGeoCoding(latLng);
+                }
             }
         });
     }
@@ -251,18 +259,7 @@ public class TrackMeActivity extends AppCompatActivity implements OnMapReadyCall
             super.onStop();
             stopLocationUpdate();
         }
-
-        @Override
-        protected void onStart () {
-            super.onStart();
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                // startLocationUpdate();
-                zoomToUserLocation();
-                stopLocationUpdate();
-            } else {
-                //sdkskd
-            }
-        }
+        
 
         @Override
         protected void onResume () {
