@@ -13,14 +13,25 @@
         android:background="@drawable/ic_clear"
         android:layout_gravity="end"
         android:id="@+id/close_dialog"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="20dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center|start"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:text="@string/select_show"
+        />
 
         <Button
             android:id="@+id/download"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@color/lBlue"
             android:layout_margin="30dp"
             android:text="@string/select_image"
             android:textAllCaps="false"
@@ -30,7 +41,7 @@
             android:id="@+id/cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@color/lBlue"
             android:text="@string/select_video"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"

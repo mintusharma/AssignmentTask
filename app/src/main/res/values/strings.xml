@@ -7,11 +7,26 @@
     <string name="select_image">Select Images</string>
     <string name="select_video">Select Video</string>
 
-    <string name="load_file">Load File</string>
+    <string name="load_file">Load Again</string>
     <string name="login">Login</string>
     <string name="track_me">Track Me</string>
     <string name="download_file">Download Files</string>
     <string name="create_show">Create a Show</string>
     <string name="logout">Log Out</string>
+
+    <string name="developer">Developed By : Mintoo Sharma</string>
+    <string name="github">GitHub Source code</string>
+    <string name="msg">Enter any file URL to download..</string>
+    <string name="url_hint">Enter Url</string>
+    <string name="download">Download</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="select_show">Select your choice..</string>
+
+    <string name="info">Hello , Thanks for you given task\n We can add more functionality and improve more function.
+        \nAlso we can use MVVM architecture for better UI.Please Enable GPS before testing the tracking
+        screen because I implement the GPS enable check but not working in some devices may need to recheck or improve some conditions.\n Overall thanks Once again for you Task.
+
+    </string>
 
 </resources>

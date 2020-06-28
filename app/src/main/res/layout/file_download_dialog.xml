@@ -3,18 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="250dp"
-    android:gravity="center"
     android:orientation="vertical">
+
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter any file URL to download.."
+        android:text="@string/msg"
         android:textStyle="bold"
         android:textSize="15sp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="30dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,19 +31,19 @@
             android:layout_height="match_parent"
             android:autofillHints="no"
             android:ems="10"
-            android:hint="Enter Url"
+            android:hint="@string/url_hint"
             android:inputType="textPersonName"
-            android:padding="10dp" />
+            android:padding="10dp"/>
 
         <TextView
-            android:layout_width="30dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:id="@+id/clear_text"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="5dp"
             android:padding="10dp"
             android:background="@drawable/ic_clear"
-            android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -56,21 +57,24 @@
             android:id="@+id/cancel"
             android:layout_width="0dp"
             android:layout_weight="1"
+            style="?buttonBarButtonStyle"
             android:layout_height="wrap_content"
-            android:background="#9C9898"
+            android:background="@color/text_color"
             android:layout_marginEnd="5dp"
-            android:text="Cancel"
-            android:textColor="#fff"
+            android:text="@string/cancel"
+            android:textColor="@color/white"
             android:textStyle="bold" />
+
         <Button
             android:id="@+id/download"
             android:layout_width="0dp"
             android:layout_weight="1"
+            style="?buttonBarButtonStyle"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@color/lBlue"
             android:layout_marginStart="5dp"
-            android:text="Download"
-            android:textColor="#fff"
+            android:text="@string/download"
+            android:textColor="@color/white"
             android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

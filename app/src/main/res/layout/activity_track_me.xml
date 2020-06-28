@@ -38,19 +38,28 @@
             tools:context=".MainActivity" />
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_home_map_trip_panic"
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginTop="70dp"
-        android:layout_marginEnd="20dp"
-        android:elevation="5dp"
-        android:src="@drawable/ic_refresh"
-        android:visibility="visible"
-        app:backgroundTint="@color/colorPrimaryDark"
-        app:fabSize="normal" />
+        android:layout_gravity="bottom"
+        android:padding="5dp"
+        android:textColor="@color/white"
+        android:background="@color/light_yellow"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="70dp"
+        android:id="@+id/location_name"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enable Tracking"
+        android:textAllCaps="false"
+        android:onClick="enableTracking"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:id="@+id/track_me"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

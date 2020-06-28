@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/create_show_activity"
     tools:context=".activities.CreateShowActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -32,18 +33,20 @@
         android:layout_margin="10dp"
         android:text="@string/load_file"/>
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:contentDescription="@string/app_name"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewpager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
         android:visibility="gone"
-        android:layout_marginTop="30dp"/>
+        android:layout_gravity="center_horizontal"
+        />
 
     <VideoView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_gravity="center"
         android:layout_height="match_parent"
         />

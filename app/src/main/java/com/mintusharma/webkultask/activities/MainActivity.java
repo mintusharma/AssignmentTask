@@ -3,13 +3,15 @@ package com.mintusharma.webkultask.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,14 +26,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mintusharma.webkultask.R;
-import com.mintusharma.webkultask.utils.BaseActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int PERMISSION_STORAGE_CODE = 1000;
-    EditText editText;
-    BaseActivity dialogUtils;
-    private AlertDialog.Builder builder;
+    private EditText editText;
     private AlertDialog dialog;
     private String file_url=null;
 
@@ -39,16 +38,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*editText = findViewById(R.id.links);
-        Button btn = findViewById(R.id.submit);
+        showInfo();
+        initView();
+    }
 
-        btn.setOnClickListener(new View.OnClickListener() {
+    public void showInfo(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.info_dialog, null, false);
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.show();
+        Button btn_ok=view.findViewById(R.id.btn_ok);
+        btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                downloadData();
+                dialog.dismiss();
             }
-        });*/
-        initView();
+        });
     }
 
     private void initView() {
@@ -61,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         download_file_button.setOnClickListener(this);
         create_show_button=findViewById(R.id.create_show_button);
         create_show_button.setOnClickListener(this);
+        TextView github = findViewById(R.id.github);
+        github.setOnClickListener(this);
 
     }
 
@@ -85,7 +94,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.create_show_button:
                 startActivity(new Intent(this,CreateShowActivity.class));
+                //showDialogForCreateShow();
                 break;
+
+            case R.id.github:
+                String url = "https://github.com/mintusharma/AssignmentTask";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
         }
     }
 
@@ -106,12 +122,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-
     // download file code started
 
 
     private void showDialogForDownload() {
-        builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
         @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.file_download_dialog, null, false);
         builder.setView(view);
@@ -133,10 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         download_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                downloadDataFromUrl(editText.getText().toString().trim());
-                Toast.makeText(getApplicationContext(),"File downloading..",Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-
+                checkInternet();
             }
         });
         cancel_btn.setOnClickListener(new View.OnClickListener() {
@@ -169,8 +181,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void startDownloading() {
-        //String url = editText.getText().toString().trim();
-        // validating URL is valid or not
         boolean isValid = URLUtil.isValidUrl(file_url) && Patterns.WEB_URL.matcher(file_url).matches();
         if(isValid) {
             // if url is valid check internet or wifi permission is enabled
@@ -195,4 +205,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // download file code ended
 
 
+    private void checkInternet() {
+        ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        assert conMgr != null;
+        NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
+
+        if (null != activeNetwork) {
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
+                downloadDataFromUrl(editText.getText().toString().trim());
+                Toast.makeText(getApplicationContext(),"File downloading..",Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+                downloadDataFromUrl(editText.getText().toString().trim());
+                Toast.makeText(getApplicationContext(),"File downloading..",Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        }else {
+            Toast.makeText(this, "Please Enable You WIFI or Data Network", Toast.LENGTH_SHORT).show();
+        }
+
+    }
 }
